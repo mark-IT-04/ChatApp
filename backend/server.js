@@ -4,6 +4,7 @@ import connectDB from './config/db.js'
 import {notFound, errorHandler} from './middleware/errorMiddleware.js'
 
 
+
 dotenv.config()
 
 connectDB()
