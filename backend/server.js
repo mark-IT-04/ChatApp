@@ -4,6 +4,7 @@ import connectDB from './config/db.js'
 import {notFound, errorHandler} from './middleware/errorMiddleware.js'
 
 import userRoutes from './routes/userRoutes.js'
+import chatRoutes from './routes/chatRoutes.js'
 
 dotenv.config()
 
@@ -14,7 +15,7 @@ const app= express()
 app.use(express.json())
 
 app.use('/users',userRoutes)
-
+app.use('/chats',chatRoutes)
 
 app.get('/', (req,res)=>{
     res.send('API is running...')

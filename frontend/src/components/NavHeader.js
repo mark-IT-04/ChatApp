@@ -7,6 +7,7 @@ import { BiLogIn,BiLogOut } from 'react-icons/bi';
 import { showNotification } from '@mantine/notifications'
 import { TbCheck } from "react-icons/tb"
 import ModalConfirm from '../modals/ModalConfirm';
+import Userbutton from './Userbutton';
 
 const NavHeader = ({opened,setOpened}) => {
   
@@ -46,10 +47,7 @@ const NavHeader = ({opened,setOpened}) => {
         
           {userInfo ? 
             
-              <Button leftIcon={<BiLogOut size={22}/>} size='sm' color="cyan" radius="md"  
-              onClick={() => setModalOpened(true)}>
-                  Logout
-              </Button>
+              <Userbutton/>
             
           :
             <Link to='/login'>

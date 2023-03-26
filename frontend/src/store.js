@@ -8,10 +8,25 @@ import {
     userRegisterReducer,
 } from './_reducers/userReducers'
 
+import {
+    chatAccessReducer,
+    chatFetchReducer,
+    groupCreateReducer,
+    groupRenameReducer,
+    groupRemoveFromReducer,
+    groupAddToReducer
+} from './_reducers/chatReducers'
+
 const reducer = combineReducers({
     userLogin:userLoginReducer,
     userList:userListReducer,
     userRegister:userRegisterReducer,
+    chatAccess:chatAccessReducer,
+    chatFetch:chatFetchReducer,
+    groupCreate:groupCreateReducer,
+    groupRename:groupRenameReducer,
+    groupRemoveFrom:groupRemoveFromReducer,
+    groupAddTo:groupAddToReducer
 })
 
 

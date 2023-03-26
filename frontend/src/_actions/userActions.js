@@ -10,11 +10,9 @@ import {
     USER_LIST_REQUEST,
     USER_LIST_SUCCESS,
     USER_LIST_FAIL,
-    USER_LIST_RESET,
     USER_REGISTER_REQUEST,
     USER_REGISTER_SUCCESS,
-    USER_REGISTER_FAIL,
-    USER_REGISTER_RESET
+    USER_REGISTER_FAIL,    
 } from '../_constants/userConstants'
 
 const notifyMsg=(msg,mode)=>{

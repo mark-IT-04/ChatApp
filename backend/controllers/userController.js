@@ -59,9 +59,9 @@ const registerUser = asyncHandler(async(req, res) =>{
 const getUsers = asyncHandler(async(req, res) =>{
    const keyword=req.query.keyword
     ? { 
-        $or: [
-            { name: { $regex: req.query.search, $options: "i" } },
-            { email: { $regex: req.query.search, $options: "i" } },
+        $or: [ 
+            { name: { $regex: req.query.keyword, $options: "i" } },
+            { email: { $regex: req.query.keyword, $options: "i" } },
           ],       
       }
     : {}    
