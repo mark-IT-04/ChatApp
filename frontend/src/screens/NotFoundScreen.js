@@ -59,7 +59,7 @@ const NotFoundScreen = () => {
       </Text>
       <Group position="center">
         <Button color="cyan" size="md" radius="md" onClick={()=>rdrct()} mt="md">
-          Take me back to home page
+          Take me back to login page
         </Button>
       </Group>
     </Container>

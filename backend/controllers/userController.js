@@ -66,8 +66,8 @@ const getUsers = asyncHandler(async(req, res) =>{
       }
     : {}    
 
-    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-    res.json({users})
+    const users = await User.find({...keyword}).find({ _id: { $ne: req.user._id } });
+    res.json(users)
     
  })
 

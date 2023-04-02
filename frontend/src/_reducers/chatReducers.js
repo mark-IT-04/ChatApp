@@ -45,7 +45,7 @@ export const chatFetchReducer = (state={chats:[]},action)=>{
         case FETCH_CHAT_REQUEST:
             return {loading:true}
         case FETCH_CHAT_SUCCESS:
-            return {loading:false,chats: action.payload}
+            return {loading:false,success:true,chats: action.payload}
         case FETCH_CHAT_FAIL:
             return {loading:false, error: action.payload}
         case FETCH_CHAT_RESET:
@@ -60,7 +60,7 @@ export const groupCreateReducer = (state={group:[]},action)=>{
         case CREATE_GROUP_REQUEST:
             return {loading:true}
         case CREATE_GROUP_SUCCESS:
-            return {loading:false,group: action.payload}
+            return {loading:false,success:true,group: action.payload}
         case CREATE_GROUP_FAIL:
             return {loading:false, error: action.payload}
         case CREATE_GROUP_RESET:
@@ -75,7 +75,7 @@ export const groupRenameReducer = (state={group:[]},action)=>{
         case RENAME_GROUP_REQUEST:
             return {loading:true}
         case RENAME_GROUP_SUCCESS:
-            return {loading:false,group: action.payload}
+            return {loading:false,success:true,group: action.payload}
         case RENAME_GROUP_FAIL:
             return {loading:false, error: action.payload}
         case RENAME_GROUP_RESET:

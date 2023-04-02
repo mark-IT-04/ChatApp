@@ -46,12 +46,15 @@ export const accessChat = (userId) => async (dispatch,getState) =>{
             },            
         }
 
-        const {data}=await axios.post('/chats',userId,config)
+        const {data}=await axios.post('/chats',{userId},config)
+       
         
         dispatch({
             type: ACCESS_CHAT_SUCCESS,
             payload: data
         })
+        dispatch(fetchChat())
+       
         
         
     } catch (error) {
@@ -111,13 +114,14 @@ export const createGroup = (name,users) => async (dispatch,getState) =>{
             },            
         }
 
-        const {data}=await axios.post('/chats/creategroup',(name,users),config)
+        const {data}=await axios.post('/chats/creategroup',{name,users},config)
         
         dispatch({
             type: CREATE_GROUP_SUCCESS,
             payload: data
         })
-        
+        notifyMsg('New Group Chat was succefully created!','success')
+        dispatch(fetchChat())
         
     } catch (error) {
         dispatch({

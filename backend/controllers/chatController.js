@@ -6,7 +6,7 @@ const accessChat = asyncHandler(async (req, res) => {
     const { userId } = req.body;
   
     if (!userId) {
-      console.log("UserId param not sent with request");
+      // console.log("UserId param not sent with request");
       return res.sendStatus(400);
     }
   
@@ -71,15 +71,14 @@ const accessChat = asyncHandler(async (req, res) => {
 
   const createGroupChat = asyncHandler(async (req, res) => {
     if (!req.body.users || !req.body.name) {
-      return res.status(400).send({ message: "Please Fill all the feilds" });
+      return res.status(400).send({ message: "Please Fill all the fields" });
     }
   
     var users = JSON.parse(req.body.users);
   
     if (users.length < 2) {
-      return res
-        .status(400)
-        .send("More than 2 users are required to form a group chat");
+       res.status(400)
+      throw new Error("More than 2 users are required to form a group chat")
     }
   
     users.push(req.user);
@@ -99,7 +98,7 @@ const accessChat = asyncHandler(async (req, res) => {
       res.status(200).json(fullGroupChat);
     } catch (error) {
       res.status(400);
-      throw new Error(error.message);
+      throw new Error('Error saving new group chat');
     }
   });
   

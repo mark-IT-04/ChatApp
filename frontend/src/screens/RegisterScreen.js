@@ -43,7 +43,7 @@ const RegisterScreen = () => {
 
   useEffect(()=>{
     if(success)
-      navigate('/login')
+      navigate('/')
     
   },[success])
 

@@ -6,6 +6,7 @@ import NavHeader from './components/NavHeader'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen';
 import NotFoundScreen from './screens/NotFoundScreen';
+import ChatScreen from './screens/ChatScreen';
 
 const App = () => {
   const userLogin = useSelector(state=> state.userLogin)
@@ -22,7 +23,7 @@ const App = () => {
           background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
         },
       }}     
-     
+          
      header={
         <Header height={70} p="md" sx={(theme) => ({backgroundColor:
             theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.cyan})}>
@@ -32,9 +33,15 @@ const App = () => {
     >   
 
         <Routes>
-          
-          <Route path='/register' element={<RegisterScreen/>} />
-          <Route path='/login' element={<LoginScreen/>} />     
+          {userInfo ? 
+            <Route path='/' element={<ChatScreen/>} />  
+          : 
+          <>
+            <Route path='/register' element={<RegisterScreen/>} />
+            <Route path='/' element={<LoginScreen/>} />  
+          </>
+          }
+             
           <Route path="*" element={<NotFoundScreen/>}/>
             
         </Routes>
