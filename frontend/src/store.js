@@ -17,6 +17,11 @@ import {
     groupAddToReducer
 } from './_reducers/chatReducers'
 
+import { 
+    messagesAllReducer,
+    messageSendReducer
+} from './_reducers/messageReducer'
+
 const reducer = combineReducers({
     userLogin:userLoginReducer,
     userList:userListReducer,
@@ -26,7 +31,9 @@ const reducer = combineReducers({
     groupCreate:groupCreateReducer,
     groupRename:groupRenameReducer,
     groupRemoveFrom:groupRemoveFromReducer,
-    groupAddTo:groupAddToReducer
+    groupAddTo:groupAddToReducer,
+    messagesAll:messagesAllReducer,
+    messageSend:messageSendReducer
 })
 
 

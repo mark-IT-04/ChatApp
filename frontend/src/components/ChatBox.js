@@ -2,18 +2,37 @@ import { ActionIcon, Button, Center, Flex, Group, Paper, ScrollArea, Text, Texta
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BsSendFill,BsFillEyeFill } from "react-icons/bs"
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { sendMessage,allMessages } from '../_actions/messageAction'
 
 
 const ChatBox = params => {
-    console.log(params.selectedChat)
+    const [newMsg,setNewMsg]=useState('')
 
     const userLogin = useSelector(state=>state.userLogin)
     const{userInfo}=userLogin
 
+    const dispatch=useDispatch()
+
+    const messagesAll = useSelector(state=>state.messagesAll)
+    const{loading,success, messages}=messagesAll
+
+    useEffect(()=>{
+      if(Object.keys(params.selectedChat).length!==0)
+        dispatch(allMessages(params.selectedChat._id))
+    },[dispatch,params.selectedChat])
+
+
     const sender=(users)=>{
       return users[0]._id ===userInfo._id?users[1].name:users[0].name
     }
+
+    const sendMsg=()=>{
+      dispatch(sendMessage(newMsg,params.selectedChat._id))
+      setNewMsg("")
+    }
+// console.log(messages)
+
 
   return (
     <Paper shadow="md" radius="lg" px="lg" pt='md' pb='xl' m='xs' withBorder mih={'85vh'}>
@@ -34,6 +53,8 @@ const ChatBox = params => {
         }
         <ScrollArea sx={{ height: '58vh' }}>
 
+
+
         {
         Object.keys(params.selectedChat).length===0 &&
         <Center mih={'85vh'}>
@@ -49,10 +70,14 @@ const ChatBox = params => {
           <Textarea
           placeholder="Enter a message"
           minRows={5}
-        />
+          value={newMsg}
+          onChange={(event)=>setNewMsg(event.currentTarget.value)}
+          />
         </Group>
         <Group position='right'>
-          <Button color='cyan' mt='sm' radius='md' leftIcon={<BsSendFill />}>
+          <Button color='cyan' mt='sm' radius='md' leftIcon={<BsSendFill />}
+            onClick={()=>sendMsg()}
+          >
             Send
           </Button>
         </Group>
