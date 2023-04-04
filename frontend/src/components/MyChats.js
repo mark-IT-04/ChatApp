@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import GroupChatModal from './GroupChatModal'
 import ChatBox from './ChatBox'
 
-const MyChats = () => {
-  const selectedChat=localStorage.getItem('selectedChat')? JSON.parse(localStorage.getItem('selectedChat')):[]
+const MyChats = params => {
+  
   const [openedGModal, setOpenedGModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('Create Group')
 
@@ -31,14 +31,13 @@ const MyChats = () => {
       return users[0]._id ===userInfo._id?users[1].name:users[0].name
     }
 
-    const loadChats=(chatName,chatId)=>{
-      localStorage.setItem('selectedChat',JSON.stringify({chatName,chatId}))
-      
-      }
+    const loadChats=(chat)=>{
+      params.setSelectedChat(chat)
+    }
 
     
   return (<>
-    <Paper shadow="md" radius="lg" px="lg" pt='md' pb='xl' m='xs' withBorder>
+    <Paper shadow="md" radius="lg" px="lg" pt='md' pb='xl' m='xs' withBorder mih={'85vh'}>
           <Group position="apart">
             <Text  fw={500}>My Chats</Text>
             <Button variant="light" color="cyan" radius="md" leftIcon={<AiOutlinePlus />} size="xs"
@@ -47,7 +46,7 @@ const MyChats = () => {
               New Group Chat
             </Button>
           </Group>
-          <ScrollArea sx={{ height: '75vh' }} >
+          <ScrollArea sx={{ height: '74vh' }} >
           {loading ? 
                 <Center mt='xl' pt='xl'><Loader color= 'cyan' size="sm"/></Center>  
             :
@@ -55,7 +54,7 @@ const MyChats = () => {
                 chats.map((chat)=>(
                 <Paper  radius="md" p="sm" key={chat._id} my='xs'
                    withBorder sx={{cursor:'pointer'}}
-                   onClick={()=>loadChats(!chat.isGroupChat ? sender(chat.users): chat.chatName,chat._id)}
+                   onClick={()=>loadChats(chat)}
                 >
                     <Stack spacing={0}>
                         <Text fz="sm">

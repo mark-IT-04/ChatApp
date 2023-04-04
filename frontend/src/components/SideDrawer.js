@@ -56,7 +56,6 @@ const SideDrawer = () => {
             onClose={close}
             title="Search Chat Users"
             overlayProps={{ opacity: 0.5, blur: 4 }}
-           
         >        
                 <Input
                     variant="filled"

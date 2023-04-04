@@ -6,18 +6,18 @@ import MyChats from '../components/MyChats';
 import ChatBox from '../components/ChatBox';
 
 const ChatScreen = () => {
- 
+ const [selectedChat,setSelectedChat]=useState({})
   
 
   return (
     <Grid grow gutter={0} >
       <Grid.Col xs={12} sm={4}>
-        <MyChats/>
+        <MyChats selectedChat={selectedChat} setSelectedChat={setSelectedChat} />
       </Grid.Col>
 
       <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
         <Grid.Col  sm={8} >
-          <ChatBox/>
+          <ChatBox selectedChat={selectedChat} setSelectedChat={setSelectedChat}/>
         </Grid.Col>
       </MediaQuery>
     </Grid>
