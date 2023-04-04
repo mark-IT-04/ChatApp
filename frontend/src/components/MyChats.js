@@ -37,16 +37,16 @@ const MyChats = params => {
 
     
   return (<>
-    <Paper shadow="md" radius="lg" px="lg" pt='md' pb='xl' m='xs' withBorder mih={'85vh'}>
+    <Paper shadow="md" radius="lg" px="lg" pt='md' pb='xl' m='xs' withBorder mih={'85vh'} mah={'85vh'}>
           <Group position="apart">
-            <Text  fw={500}>My Chats</Text>
-            <Button variant="light" color="cyan" radius="md" leftIcon={<AiOutlinePlus />} size="xs"
+            <Text  fz='lg' fw={500}>My Chats</Text>
+            <Button variant="light" color="cyan" radius="md" leftIcon={<AiOutlinePlus />} size="sm"
             onClick={()=>setOpenedGModal(true)}
             >
               New Group Chat
             </Button>
           </Group>
-          <ScrollArea sx={{ height: '74vh' }} >
+          <ScrollArea sx={{ height: '70vh' }} >
           {loading ? 
                 <Center mt='xl' pt='xl'><Loader color= 'cyan' size="sm"/></Center>  
             :
@@ -57,7 +57,7 @@ const MyChats = params => {
                    onClick={()=>loadChats(chat)}
                 >
                     <Stack spacing={0}>
-                        <Text fz="sm">
+                        <Text fz="md">
                         {
                           !chat.isGroupChat ? 
                           sender(chat.users)

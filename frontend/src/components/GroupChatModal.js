@@ -46,7 +46,7 @@ const GroupChatModal = params => {
 
       const saveGCHandler=()=>{
         dispatch(createGroup(gcName,JSON.stringify(usersVal)))
-        if(successAdd || successEdit ) onCloseHandler()
+      
       }
 
 

@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Center, Flex, Group, Paper, ScrollArea, Text, Textarea } from '@mantine/core'
+import { ActionIcon, Avatar, Button, Center, Flex, Group, Loader, Paper, ScrollArea, Space, Stack, Text, Textarea, Tooltip } from '@mantine/core'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BsSendFill,BsFillEyeFill } from "react-icons/bs"
@@ -15,31 +15,51 @@ const ChatBox = params => {
     const dispatch=useDispatch()
 
     const messagesAll = useSelector(state=>state.messagesAll)
-    const{loading,success, messages}=messagesAll
+    const{loading, messages}=messagesAll
+
+    const messageSend = useSelector(state=>state.messageSend)
+    const{success:successSend}=messageSend
 
     useEffect(()=>{
       if(Object.keys(params.selectedChat).length!==0)
         dispatch(allMessages(params.selectedChat._id))
-    },[dispatch,params.selectedChat])
+    },[dispatch,params.selectedChat,successSend])
 
 
     const sender=(users)=>{
       return users[0]._id ===userInfo._id?users[1].name:users[0].name
     }
 
+    const isSameSender=(msgs, m,i,userId)=>{
+      return(
+        i<msgs.length-1 &&
+        (msgs[i+1].sender._id!==m.sender._id || msgs[i+1].sender._id=== undefined) &&
+        msgs[i].sender._id!==userId
+      )
+    }
+
+    const isLastMsg=(msgs, i,userId)=>{
+      return(
+        i===msgs.length-1 &&
+        msgs[msgs.length-1].sender._id!==userId && msgs[msgs.length-1].sender._id
+      )
+    }
+    
+
     const sendMsg=()=>{
-      dispatch(sendMessage(newMsg,params.selectedChat._id))
+      if(newMsg!=='')
+        dispatch(sendMessage(newMsg,params.selectedChat._id))
       setNewMsg("")
     }
 // console.log(messages)
 
 
   return (
-    <Paper shadow="md" radius="lg" px="lg" pt='md' pb='xl' m='xs' withBorder mih={'85vh'}>
+    <Paper shadow="md" radius="lg" px="lg" pt='md' pb='xl' m='xs' withBorder mih={'85vh'} mah={'85vh'}>
         {
         Object.keys(params.selectedChat).length!==0 &&
-          <Group position="apart" >
-            <Text  fw={500}>
+          <Group position="apart" mb='md'>
+            <Text  fz='lg' fw={500}>
               {params.selectedChat.isGroupChat ? 
                 params.selectedChat.chatName 
                 : 
@@ -51,36 +71,75 @@ const ChatBox = params => {
             </ActionIcon>
           </Group>
         }
-        <ScrollArea sx={{ height: '58vh' }}>
+       
 
 
 
         {
-        Object.keys(params.selectedChat).length===0 &&
-        <Center mih={'85vh'}>
+        Object.keys(params.selectedChat).length===0 ?
+        <Center mih={'80vh'}>
             <Text fz='lg' color='dimmed'>Click on user to start chatting</Text>
         </Center>
-        }
+        : <>
+        {loading ?
+          <Center mih={'80vh'}>
+            <Loader color= 'cyan' />
+          </Center>
+        : <>
+        <ScrollArea mih={'55vh'}>
+          <Stack justify="flex-end" spacing='xs'>
+          
+          {messages.map((msg,i)=>(  
+            <Group position={msg.sender._id===userInfo._id ? "right" : "#left"} spacing='xs'>
+              {(isSameSender(messages,msg,i,userInfo._id) || isLastMsg(messages,i,userInfo._id)) ? 
+                <Tooltip
+                  label={msg.sender.name}
+                  color="gray"
+                  position="bottom-start"
+                  withArrow
+                >
+                  <Avatar
+                    src={msg.sender.pic}
+                    radius="xl" size='sm'
+                  />
+                </Tooltip>
+                :
+                <Space w='xl'/>
+              }
+              <span style={{
+                backgroundColor:`${
+                  msg.sender._id===userInfo._id ? "#74b9ff" : "#dfe6e9"   
+                }`,
+                borderRadius: "20px",
+                padding:"5px 15px",
+              }}>
+                {msg.content}
+              </span>
+            </Group>
+          ))} 
+          </Stack>        
+         
+         </ScrollArea>        
 
-        </ScrollArea>
-
-        {
-        Object.keys(params.selectedChat).length!==0 && <>
-        <Group grow>
-          <Textarea
-          placeholder="Enter a message"
-          minRows={5}
-          value={newMsg}
-          onChange={(event)=>setNewMsg(event.currentTarget.value)}
-          />
-        </Group>
-        <Group position='right'>
-          <Button color='cyan' mt='sm' radius='md' leftIcon={<BsSendFill />}
-            onClick={()=>sendMsg()}
-          >
-            Send
-          </Button>
-        </Group>
+        <Stack spacing={0}>
+          <Group grow>
+            <Textarea
+            placeholder="Enter a message"
+            minRows={4}
+            value={newMsg}
+            onChange={(event)=>setNewMsg(event.currentTarget.value)}
+            />
+          </Group>
+          <Group position='right'>
+            <Button color='cyan' mt='sm' radius='md' leftIcon={<BsSendFill />}
+              onClick={()=>sendMsg()}
+            >
+              Send
+            </Button>
+          </Group>
+        </Stack>
+        </>}
+         
         </>}
             
     </Paper>
