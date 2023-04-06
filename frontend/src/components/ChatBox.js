@@ -100,6 +100,7 @@ const ChatBox = params => {
     const openModalHandler=()=>{
       setModalOpen(true)
     }
+
     
 
   return (<>
@@ -109,9 +110,9 @@ const ChatBox = params => {
           <Group position="apart" mb='md'>
             <Group spacing='xs'>
             <MediaQuery largerThan="sm" styles={{display:  'none'}}>
-              {params.clicked &&
+              {!params.clicked &&
                 <ActionIcon variant='light' size="md" radius="lg" color='cyan'>
-                  <BsArrowLeftShort size="2.5rem" onClick={()=>params.setClicked(false)}/>
+                  <BsArrowLeftShort size="2.5rem" onClick={()=>params.unClickedHandler()}/>
                 </ActionIcon>
               }
               </MediaQuery>

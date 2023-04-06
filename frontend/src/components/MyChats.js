@@ -35,7 +35,7 @@ const MyChats = params => {
     const loadChats=(chat)=>{
       params.setSelectedChat(chat)
       setActiveID(chat._id)
-      params.setClicked(!params.clicked)
+      params.clickedHandler()
     }
 
     
@@ -70,7 +70,7 @@ const MyChats = params => {
                     <Stack spacing={0}>
                     <Group>
                         <Avatar
-                            name={sender(chat.users)}
+                            name={!chat.isGroupChat ? sender(chat.users): chat.chatName}
                             round={true}
                             size={'30px'}
                         />

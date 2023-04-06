@@ -8,20 +8,30 @@ import ChatBox from '../components/ChatBox';
 const ChatScreen = () => {
  const [selectedChat,setSelectedChat]=useState({})
  const [clicked,setClicked]=useState(false)
+ const [unclicked,setunClicked]=useState(true)
+ 
+ const clickedHandler=()=>{
+  setClicked(true)
+  setunClicked(false)
+ }
+ const unClickedHandler=()=>{
+  setClicked(false)
+  setunClicked(true)
+ }
 
   return (<>
     <Grid grow gutter={0} >
       <MediaQuery smallerThan="sm" styles={{ display: clicked ? 'none' :''}}>
         <Grid.Col xs={12} sm={4}>
           <MyChats selectedChat={selectedChat} setSelectedChat={setSelectedChat} 
-                  clicked={clicked} setClicked={setClicked}/>
+                  clicked={clicked} clickedHandler={()=>clickedHandler()}/>
         </Grid.Col>
       </MediaQuery>
 
-      <MediaQuery smallerThan="sm" styles={{ display: !clicked ? 'none' :''}}>
+      <MediaQuery smallerThan="sm" styles={{ display: unclicked ? 'none' :''}}>
         <Grid.Col  sm={8} >
           <ChatBox selectedChat={selectedChat} setSelectedChat={setSelectedChat} 
-                  clicked={clicked} setClicked={setClicked}/>
+                  unclicked={unclicked} unClickedHandler={()=>unClickedHandler()}/>
         </Grid.Col>
       </MediaQuery>
     </Grid>
