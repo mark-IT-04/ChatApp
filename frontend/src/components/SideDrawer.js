@@ -2,10 +2,11 @@ import React,{useEffect, useState} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import { useDisclosure } from '@mantine/hooks';
-import { ActionIcon, Avatar, Button, Center, Drawer, Group, Input, Loader, Paper, ScrollArea, Stack, Text, Tooltip } from '@mantine/core'
+import { ActionIcon, Button, Center, Drawer, Group, Input, Loader, Paper, ScrollArea, Stack, Text, Tooltip } from '@mantine/core'
 import { BiSearch } from "react-icons/bi"
 import { listUsers } from '../_actions/userActions';
 import { accessChat } from '../_actions/chatActions';
+import Avatar from 'react-avatar'
 
 const SideDrawer = () => {
     const [opened, { open, close }] = useDisclosure(false);
@@ -71,13 +72,22 @@ const SideDrawer = () => {
             {success &&
                 users.map((user)=>(
                 <Paper shadow='sm' radius="lg" p="sm" key={user._id} my='xs'
-                   withBorder sx={{cursor:'pointer'}}
+                   withBorder 
                    onClick={()=>addChatHandler(user._id)}
+                   sx={()=>({
+                    cursor:'pointer',
+                    '&:hover': {
+                          backgroundColor:'#82ccdd',
+                          color:'white'
+                        }
+                    })}
                 >
                     <Group>
                         <Avatar
-                            src={user.pic}
-                            radius="xl" size='sm'
+                            name={user.name}
+                            round={true}
+                            size={'30px'}
+                            // radius="xl" size='sm'
                         />
                         <Stack spacing={0}>
                             <Text fw={500}>{user.name}</Text>

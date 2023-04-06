@@ -48,7 +48,7 @@ export const allMessages = (chatId) => async (dispatch,getState) =>{
 }
 
 export const sendMessage = (content,chatId) => async (dispatch,getState) =>{
-    console.log(content,chatId)
+    
     try {
         dispatch({
             type:MESSAGES_SEND_REQUEST

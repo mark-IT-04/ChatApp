@@ -5,11 +5,12 @@ import { fetchChat } from '../_actions/chatActions'
 import { useDispatch, useSelector } from 'react-redux'
 import GroupChatModal from './GroupChatModal'
 import ChatBox from './ChatBox'
+import Avatar from 'react-avatar'
 
 const MyChats = params => {
   
   const [openedGModal, setOpenedGModal] = useState(false);
-  const [modalTitle, setModalTitle] = useState('Create Group')
+  const [activeID, setActiveID] = useState('')
 
     const dispatch=useDispatch()
     
@@ -33,6 +34,8 @@ const MyChats = params => {
 
     const loadChats=(chat)=>{
       params.setSelectedChat(chat)
+      setActiveID(chat._id)
+      params.setClicked(!params.clicked)
     }
 
     
@@ -49,22 +52,37 @@ const MyChats = params => {
           <ScrollArea sx={{ height: '70vh' }} >
           {loading ? 
                 <Center mt='xl' pt='xl'><Loader color= 'cyan' size="sm"/></Center>  
-            :
-           
+            :           
                 chats.map((chat)=>(
                 <Paper  radius="md" p="sm" key={chat._id} my='xs'
-                   withBorder sx={{cursor:'pointer'}}
+                   withBorder 
                    onClick={()=>loadChats(chat)}
+                   sx={()=>({
+                    cursor:'pointer',
+                    backgroundColor:chat._id===activeID ? '#82ccdd': 'transparent',
+                      '&:hover': {
+                          backgroundColor:'#82ccdd',
+                          color:'white'
+                        }
+                    })}
+                  
                 >
                     <Stack spacing={0}>
-                        <Text fz="md">
+                    <Group>
+                        <Avatar
+                            name={sender(chat.users)}
+                            round={true}
+                            size={'30px'}
+                        />
+                      <Text fz="md">
                         {
                           !chat.isGroupChat ? 
                           sender(chat.users)
                           : chat.chatName
                         }
                         </Text>
-                      
+                    </Group>
+                                              
                     </Stack>
                     
                 </Paper>
@@ -76,7 +94,7 @@ const MyChats = params => {
             
         </Paper>
 
-        <GroupChatModal openedGModal={openedGModal} setOpenedGModal={setOpenedGModal} title={modalTitle}/>
+        <GroupChatModal openedGModal={openedGModal} setOpenedGModal={setOpenedGModal} title={'Create Group'}/>
   </>)
 }
 

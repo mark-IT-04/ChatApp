@@ -7,21 +7,25 @@ import ChatBox from '../components/ChatBox';
 
 const ChatScreen = () => {
  const [selectedChat,setSelectedChat]=useState({})
-  
+ const [clicked,setClicked]=useState(false)
 
-  return (
+  return (<>
     <Grid grow gutter={0} >
-      <Grid.Col xs={12} sm={4}>
-        <MyChats selectedChat={selectedChat} setSelectedChat={setSelectedChat} />
-      </Grid.Col>
+      <MediaQuery smallerThan="sm" styles={{ display: clicked ? 'none' :''}}>
+        <Grid.Col xs={12} sm={4}>
+          <MyChats selectedChat={selectedChat} setSelectedChat={setSelectedChat} 
+                  clicked={clicked} setClicked={setClicked}/>
+        </Grid.Col>
+      </MediaQuery>
 
-      <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+      <MediaQuery smallerThan="sm" styles={{ display: !clicked ? 'none' :''}}>
         <Grid.Col  sm={8} >
-          <ChatBox selectedChat={selectedChat} setSelectedChat={setSelectedChat}/>
+          <ChatBox selectedChat={selectedChat} setSelectedChat={setSelectedChat} 
+                  clicked={clicked} setClicked={setClicked}/>
         </Grid.Col>
       </MediaQuery>
     </Grid>
-  )
+  </>)
 }
 
 export default ChatScreen
