@@ -3,10 +3,6 @@ import {
     ACCESS_CHAT_REQUEST, 
     ACCESS_CHAT_RESET, 
     ACCESS_CHAT_SUCCESS, 
-    ADDTO_GROUP_FAIL, 
-    ADDTO_GROUP_REQUEST, 
-    ADDTO_GROUP_RESET, 
-    ADDTO_GROUP_SUCCESS, 
     CREATE_GROUP_FAIL, 
     CREATE_GROUP_REQUEST, 
     CREATE_GROUP_RESET, 
@@ -19,10 +15,10 @@ import {
     REMOVEFROM_GROUP_REQUEST,
     REMOVEFROM_GROUP_RESET,
     REMOVEFROM_GROUP_SUCCESS,
-    RENAME_GROUP_FAIL,
-    RENAME_GROUP_REQUEST,
-    RENAME_GROUP_RESET,
-    RENAME_GROUP_SUCCESS
+    UPDATE_GROUP_FAIL,
+    UPDATE_GROUP_REQUEST,
+    UPDATE_GROUP_RESET,
+    UPDATE_GROUP_SUCCESS
 } from "../_constants/chatConstants"
 
 export const chatAccessReducer = (state={chats:[]},action)=>{
@@ -70,15 +66,15 @@ export const groupCreateReducer = (state={group:[]},action)=>{
     }
 }
 
-export const groupRenameReducer = (state={group:[]},action)=>{
+export const groupUpdateReducer = (state={group:[]},action)=>{
     switch(action.type){
-        case RENAME_GROUP_REQUEST:
+        case UPDATE_GROUP_REQUEST:
             return {loading:true}
-        case RENAME_GROUP_SUCCESS:
+        case UPDATE_GROUP_SUCCESS:
             return {loading:false,success:true,group: action.payload}
-        case RENAME_GROUP_FAIL:
+        case UPDATE_GROUP_FAIL:
             return {loading:false, error: action.payload}
-        case RENAME_GROUP_RESET:
+        case UPDATE_GROUP_RESET:
             return {group:[]}
         default:
             return state    
@@ -100,17 +96,3 @@ export const groupRemoveFromReducer = (state={group:[]},action)=>{
     }
 }
 
-export const groupAddToReducer = (state={group:[]},action)=>{
-    switch(action.type){
-        case ADDTO_GROUP_REQUEST:
-            return {loading:true}
-        case ADDTO_GROUP_SUCCESS:
-            return {loading:false,group: action.payload}
-        case ADDTO_GROUP_FAIL:
-            return {loading:false, error: action.payload}
-        case ADDTO_GROUP_RESET:
-            return {group:[]}
-        default:
-            return state    
-    }
-}

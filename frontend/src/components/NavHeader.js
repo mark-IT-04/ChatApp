@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {useSelector,useDispatch} from 'react-redux'
 import { Link,useNavigate } from 'react-router-dom'
-import { Group,  Box ,Avatar,Title,Button, MediaQuery, ActionIcon, Tooltip } from '@mantine/core';
+import { Group,  Box ,Avatar,Title,Button, MediaQuery, ActionIcon, Tooltip, Popover, Text, Indicator } from '@mantine/core';
 import { BiLogIn,BiLogOut } from 'react-icons/bi';
  import {logout} from '../_actions/userActions'
 import { showNotification } from '@mantine/notifications'
@@ -10,8 +10,11 @@ import { FaBell } from "react-icons/fa"
 import ModalConfirm from '../modals/ModalConfirm';
 import Userbutton from './Userbutton';
 import SideDrawer from './SideDrawer';
+import useShareableState from '../useShareableState'
+import { useBetween } from 'use-between';
 
 const NavHeader = ({opened,setOpened}) => {
+  const { setNotification,notification ,setSelectedChat, setActiveID,setClicked,setunClicked} = useBetween(useShareableState) 
   
   const [modalOpened, setModalOpened] = useState(false)
 
@@ -34,6 +37,17 @@ const NavHeader = ({opened,setOpened}) => {
       navigate('/') 
   }
 
+  const sender=(users)=>{
+    return users[0]._id ===userInfo._id?users[1].name:users[0].name
+  }
+
+  const loadChats=(notific)=>{
+    setSelectedChat(notific.chat)
+    setActiveID(notific.chat._id)
+    setNotification(notification.filter ((n)=>n!==notific))
+    setClicked(true)
+    setunClicked(false)
+  }
     return (<>
       <Box
         sx={(theme) => ({
@@ -51,13 +65,46 @@ const NavHeader = ({opened,setOpened}) => {
         </Group>
         
           {userInfo && 
+           
             <Group>
-              <ActionIcon  size="sm" radius="xl" variant="transparent">
-                  <FaBell size="xs" color='white'/>
-              </ActionIcon>
-
+              <Popover position="bottom-end" radius='lg' shadow="md">
+                <Popover.Target>
+                {notification.length===0 
+                ?
+                    <ActionIcon  size="sm" radius="xl" variant="transparent">
+                        <FaBell size="xs" color='white'/>
+                    </ActionIcon>
+                :
+                  <Indicator color="red" position="bottom-end">
+                    <ActionIcon  size="sm" radius="xl" variant="transparent">
+                        <FaBell size="xs" color='white'/>
+                    </ActionIcon>
+                  </Indicator>
+                }
+                  
+                </Popover.Target>
+                <Popover.Dropdown>
+                  {!notification.length ? 
+                    <Text size="sm" weight={500} color='gray' style={{cursor:'pointer'}}>
+                     No new messages
+                    </Text>
+                  :
+                  notification.map(notif=>(
+                      notif.chat.isGroupChat ? 
+                      <Text size="sm" weight={500} color='gray' style={{cursor:'pointer'}}  onClick={()=>loadChats(notif)}>
+                          New Message in {notif.chat.chatName}  
+                      </Text>
+                      : 
+                      <Text size="sm" weight={500} color='gray' style={{cursor:'pointer'}}  onClick={()=>loadChats(notif)}>
+                        New Message from {sender(notif.chat.users)} 
+                      </Text>
+                    ))
+                  }
+                </Popover.Dropdown>
+              </Popover>
               <Userbutton/>
             </Group>
+            
             
           //:
             /* <Link to='/login'>

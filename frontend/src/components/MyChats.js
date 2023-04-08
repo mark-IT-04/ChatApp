@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import GroupChatModal from './GroupChatModal'
 import ChatBox from './ChatBox'
 import Avatar from 'react-avatar'
+import useShareableState from '../useShareableState'
+import { useBetween } from 'use-between';
 
 const MyChats = params => {
-  
+  const {selectedChat, setSelectedChat,activeID, setActiveID } = useBetween(useShareableState)
   const [openedGModal, setOpenedGModal] = useState(false);
-  const [activeID, setActiveID] = useState('')
 
     const dispatch=useDispatch()
     
@@ -24,6 +25,7 @@ const MyChats = params => {
 
     useEffect(()=>{
       dispatch(fetchChat())
+      
     },[dispatch])
 
     
@@ -33,7 +35,7 @@ const MyChats = params => {
     }
 
     const loadChats=(chat)=>{
-      params.setSelectedChat(chat)
+      setSelectedChat(chat)
       setActiveID(chat._id)
       params.clickedHandler()
     }
@@ -51,6 +53,7 @@ const MyChats = params => {
           </Group>
           <ScrollArea sx={{ height: '70vh' }} >
           {loading ? 
+                
                 <Center mt='xl' pt='xl'><Loader color= 'cyan' size="sm"/></Center>  
             :           
                 chats.map((chat)=>(
@@ -68,7 +71,7 @@ const MyChats = params => {
                   
                 >
                     <Stack spacing={0}>
-                    <Group>
+                    <Group key={chat._id}>
                         <Avatar
                             name={!chat.isGroupChat ? sender(chat.users): chat.chatName}
                             round={true}

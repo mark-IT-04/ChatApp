@@ -1,43 +1,51 @@
 import React,{ useEffect, useState } from 'react'
 import {useDispatch,useSelector} from 'react-redux'
-import { createGroup,renameGroup } from '../_actions/chatActions'
+import { createGroup,updateGroup } from '../_actions/chatActions'
 import { Alert, Button, Center, Group, Loader, Modal, MultiSelect, TextInput, Title, useMantineTheme } from '@mantine/core'
-import { CREATE_GROUP_RESET, RENAME_GROUP_RESET} from '../_constants/chatConstants'
+import { CREATE_GROUP_RESET, UPDATE_GROUP_RESET} from '../_constants/chatConstants'
 import { listUsers } from '../_actions/userActions';
 import { TbAlertCircle } from "react-icons/tb";
+import useShareableState from '../useShareableState'
+import { useBetween } from 'use-between';
 
 const GroupChatModal = params => {
+  const { selectedChat,setSelectedChat,setActiveID } = useBetween(useShareableState) 
     const theme = useMantineTheme()
     const dispatch=useDispatch()
 
-    const [gcName, setGCname] = useState('')
-    const [searchValue, onSearchChange] = useState('');
-    const [usersVal, setUsersVal] = useState('');
+    const [gcName, setGCname] = useState(selectedChat.chatName )
+    const [usersVal, setUsersVal] = useState(selectedChat.users);
+   
 
     const groupCreate =useSelector(state=>state.groupCreate)
-    const {success:successAdd,loading:loadingAdd,error:errorAdd} =groupCreate
+    const {success:successAdd,loading:loadingAdd,error:errorAdd,group:newGroup} =groupCreate
 
-    const groupRename =useSelector(state=>state.groupRename)
-    const {success:successEdit,loading:loadingEdit,error:errorEdit} =groupRename
+    const groupUpdate =useSelector(state=>state.groupUpdate)
+    const {success:successEdit,loading:loadingEdit,error:errorEdit,group:updatedGroup} =groupUpdate
 
     const userList = useSelector(state=>state.userList)
     const{loading,success, users}=userList
 
-    
+     
     useEffect(()=>{
           dispatch(listUsers())
       },[dispatch])
 
     useEffect(()=>{
-        if(successAdd || successEdit ) {
-          onCloseHandler()
-        }  
+        if(successAdd || successEdit ) 
+          onCloseHandler()   
+       
+        if(successEdit) setSelectedChat(updatedGroup) 
+        if(successAdd) {
+          setSelectedChat(newGroup)
+          setActiveID(newGroup._id)
+        }
     },[successAdd,successEdit])
 
 
     const onCloseHandler=()=>{
         dispatch({type:CREATE_GROUP_RESET})
-        dispatch({type:RENAME_GROUP_RESET})
+        dispatch({type:UPDATE_GROUP_RESET})
         setGCname('')
         setUsersVal('')
         params.setOpenedGModal(false)
@@ -45,8 +53,10 @@ const GroupChatModal = params => {
 
 
       const saveGCHandler=()=>{
-        dispatch(createGroup(gcName,JSON.stringify(usersVal)))
-      
+        if(params.title==="Create Group")
+          dispatch(createGroup(gcName,JSON.stringify(usersVal)))
+        else
+          dispatch(updateGroup(selectedChat._id,gcName,JSON.stringify(usersVal)))
       }
 
 
@@ -69,22 +79,23 @@ const GroupChatModal = params => {
           </Alert>
         }
         {errorEdit  &&
-          <Alert icon={<TbAlertCircle size={16} />}  color="red" radius="lg" mb='xs' withCloseButton onClose={()=>dispatch({type:RENAME_GROUP_RESET})}>
+          <Alert icon={<TbAlertCircle size={16} />}  color="red" radius="lg" mb='xs' withCloseButton onClose={()=>dispatch({type:UPDATE_GROUP_RESET})}>
             {errorEdit}
           </Alert>
         }
 
-    {loading ?
-        <Center my='xl'  pt='xl'><Loader color= 'cyan' size="sm"/></Center>  
-    : <>
+    
     <TextInput label="Group Chat Name" placeholder="Enter GC name" 
           withAsterisk 
           radius='md'
           mb='sm'
-          value={ gcName }
+          value={gcName}
           onChange={(event) => setGCname(event.currentTarget.value)}
+         
     />
-   
+   {!success ?
+        <Center my='xl'  pt='xl'><Loader color= 'cyan' size="sm"/></Center>  
+    : <>
         <MultiSelect
         data={
             users.map((user)=>(
@@ -102,6 +113,9 @@ const GroupChatModal = params => {
         value={usersVal}
         onChange={setUsersVal}
         minSelectedValues={2}
+        dropdownPosition="top"
+        maxDropdownHeight={120}
+        
         />
     
 

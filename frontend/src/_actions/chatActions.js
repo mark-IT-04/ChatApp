@@ -6,9 +6,6 @@ import {
     ACCESS_CHAT_FAIL,
     ACCESS_CHAT_REQUEST,
     ACCESS_CHAT_SUCCESS, 
-    ADDTO_GROUP_FAIL, 
-    ADDTO_GROUP_REQUEST, 
-    ADDTO_GROUP_SUCCESS, 
     CREATE_GROUP_FAIL, 
     CREATE_GROUP_REQUEST,
     CREATE_GROUP_SUCCESS, 
@@ -20,7 +17,10 @@ import {
     REMOVEFROM_GROUP_SUCCESS,
     RENAME_GROUP_FAIL,
     RENAME_GROUP_REQUEST,
-    RENAME_GROUP_SUCCESS
+    RENAME_GROUP_SUCCESS,
+    UPDATE_GROUP_FAIL,
+    UPDATE_GROUP_REQUEST,
+    UPDATE_GROUP_SUCCESS
 } from "../_constants/chatConstants"
 const notifyMsg=(msg,mode)=>{
     showNotification({
@@ -133,10 +133,10 @@ export const createGroup = (name,users) => async (dispatch,getState) =>{
     }
 }
 
-export const renameGroup = (chatId,chatName) => async (dispatch,getState) =>{
+export const updateGroup = (chatId,chatName,chatUsers) => async (dispatch,getState) =>{
     try {
         dispatch({
-            type:RENAME_GROUP_REQUEST
+            type:UPDATE_GROUP_REQUEST
         })
 
         const { userLogin:{userInfo} } = getState()
@@ -147,17 +147,18 @@ export const renameGroup = (chatId,chatName) => async (dispatch,getState) =>{
             },            
         }
 
-        const {data}=await axios.put('/chats/renamegroup',(chatId,chatName),config)
+        const {data}=await axios.put('/chats/updategroup',{chatId,chatName,chatUsers},config)
         
         dispatch({
-            type: RENAME_GROUP_SUCCESS,
+            type: UPDATE_GROUP_SUCCESS,
             payload: data
         })
-        
+        notifyMsg('Group Chat was succefully updated!','success')
+        dispatch(fetchChat())
         
     } catch (error) {
         dispatch({
-            type: RENAME_GROUP_FAIL,
+            type: UPDATE_GROUP_FAIL,
             payload: error.response  && error.response.data.message
                 ? error.response.data.message
                 : error.message
@@ -197,34 +198,3 @@ export const removeFromGroup = (chatId,userId) => async (dispatch,getState) =>{
     }
 }
 
-export const addToGroup = (chatId,userId) => async (dispatch,getState) =>{
-    try {
-        dispatch({
-            type:ADDTO_GROUP_REQUEST
-        })
-
-        const { userLogin:{userInfo} } = getState()
-
-        const config = {
-            headers:{ 
-                Authorization:`Bearer ${userInfo.token}`
-            },            
-        }
-
-        const {data}=await axios.put('/chats/addtogroup',(chatId,userId),config)
-        
-        dispatch({
-            type: ADDTO_GROUP_SUCCESS,
-            payload: data
-        })
-        
-        
-    } catch (error) {
-        dispatch({
-            type: ADDTO_GROUP_FAIL,
-            payload: error.response  && error.response.data.message
-                ? error.response.data.message
-                : error.message
-        })
-    }
-}

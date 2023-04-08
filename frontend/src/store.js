@@ -12,9 +12,9 @@ import {
     chatAccessReducer,
     chatFetchReducer,
     groupCreateReducer,
-    groupRenameReducer,
+    groupUpdateReducer,
     groupRemoveFromReducer,
-    groupAddToReducer
+   
 } from './_reducers/chatReducers'
 
 import { 
@@ -29,9 +29,8 @@ const reducer = combineReducers({
     chatAccess:chatAccessReducer,
     chatFetch:chatFetchReducer,
     groupCreate:groupCreateReducer,
-    groupRename:groupRenameReducer,
+    groupUpdate:groupUpdateReducer,
     groupRemoveFrom:groupRemoveFromReducer,
-    groupAddTo:groupAddToReducer,
     messagesAll:messagesAllReducer,
     messageSend:messageSendReducer
 })
@@ -40,7 +39,6 @@ const reducer = combineReducers({
 const userInfoFromStorage=localStorage.getItem('userInfo')? JSON.parse(localStorage.getItem('userInfo')):null
 
 const initialState={
-    
     userLogin:{userInfo:userInfoFromStorage},  
 }
 

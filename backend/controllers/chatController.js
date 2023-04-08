@@ -103,13 +103,23 @@ const accessChat = asyncHandler(async (req, res) => {
   });
   
   
-  const renameGroup = asyncHandler(async (req, res) => {
-    const { chatId, chatName } = req.body;
+  const updateGroup = asyncHandler(async (req, res) => {
+    const { chatId, chatName,chatUsers } = req.body;
+
+    var users = JSON.parse(chatUsers);
+  
+    if (users.length < 2) {
+       res.status(400)
+      throw new Error("More than 2 users are required to form a group chat")
+    }
+  
+    users.push(req.user);
   
     const updatedChat = await Chat.findByIdAndUpdate(
       chatId,
       {
         chatName: chatName,
+        users:users
       },
       {
         new: true,
@@ -151,28 +161,7 @@ const accessChat = asyncHandler(async (req, res) => {
   });
   
  
-  const addToGroup = asyncHandler(async (req, res) => {
-    const { chatId, userId } = req.body;
   
-    const added = await Chat.findByIdAndUpdate(
-      chatId,
-      {
-        $push: { users: userId },
-      },
-      {
-        new: true,
-      }
-    )
-      .populate("users", "-password")
-      .populate("groupAdmin", "-password");
-  
-    if (!added) {
-      res.status(404);
-      throw new Error("Chat Not Found");
-    } else {
-      res.json(added);
-    }
-  });
 
 
 
@@ -181,7 +170,5 @@ export {
     accessChat,
     fetchChats,
     createGroupChat,
-    addToGroup,
-    removeFromGroup,
-    renameGroup
+    updateGroup
 }

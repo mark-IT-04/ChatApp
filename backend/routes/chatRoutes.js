@@ -3,9 +3,7 @@ import {
     accessChat,
     fetchChats,
     createGroupChat,
-    addToGroup,
-    removeFromGroup,
-    renameGroup
+    updateGroup,
 } from '../controllers/chatController.js'
 import { protect } from '../middleware/authMiddleware.js'
 
@@ -16,9 +14,9 @@ router.route('/')
     .get(protect,fetchChats)
 
 router.route('/creategroup').post(protect,createGroupChat)
-router.route('/renamegroup').put(protect,renameGroup)
-router.route('/removefromgroup').put(protect,removeFromGroup)
-router.route('/addtogroup').put(protect,addToGroup)
+router.route('/updategroup').put(protect,updateGroup)
+// router.route('/removefromgroup').put(protect,removeFromGroup)
+
 
 
 export default router

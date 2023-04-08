@@ -37,7 +37,7 @@ const Userbutton = () => {
   
   return (<>
     <Group>
-   <Popover width={150} position="bottom-end" radius='lg' shadow="md">
+   <Popover  position="bottom-end" radius='lg' shadow="md">
     <Popover.Target>
         <UnstyledButton>
           <Group spacing={5}>
@@ -53,8 +53,11 @@ const Userbutton = () => {
 
       <Popover.Dropdown >
             
-        <Text size="sm" weight={700} color='gray' mb='xs'>
+        <Text size="sm" weight={700} color='gray'>
           {userInfo.name}
+        </Text>
+        <Text size="xs" color='gray' mb='xs'>
+          {userInfo.email}
         </Text>
            
         <Button variant='white'  leftIcon={<TbLogout size={20} />} radius="lg" size="sm"
