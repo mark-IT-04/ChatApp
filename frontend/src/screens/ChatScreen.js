@@ -1,7 +1,5 @@
-import { Button, Grid, Group, MediaQuery, Paper, ScrollArea, Text } from '@mantine/core';
-import React,{useEffect, useState} from 'react'
-import {useDispatch,useSelector} from 'react-redux'
-import {useNavigate} from 'react-router-dom'
+import {  Grid,  MediaQuery } from '@mantine/core';
+import React from 'react'
 import MyChats from '../components/MyChats';
 import ChatBox from '../components/ChatBox';
 import useShareableState from '../useShareableState'

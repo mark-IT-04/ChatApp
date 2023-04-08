@@ -2,13 +2,12 @@
 import React,{useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { UnstyledButton, Popover,Group, Text, Box, useMantineTheme,Button } from '@mantine/core';
-import { TbLogout,TbUserCircle, TbChevronDown } from "react-icons/tb";
+import { UnstyledButton, Popover,Group, Text,  useMantineTheme,Button } from '@mantine/core';
+import { TbLogout, TbChevronDown } from "react-icons/tb";
 import ModalConfirm from '../modals/ModalConfirm';
 import {logout} from '../_actions/userActions'
 import { TbCheck } from "react-icons/tb"
 import { showNotification } from '@mantine/notifications'
-import { FaUserAlt } from "react-icons/fa";
 import Avatar from 'react-avatar'
 
  

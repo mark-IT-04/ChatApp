@@ -1,7 +1,7 @@
 import React,{ useEffect, useState } from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import { createGroup,updateGroup } from '../_actions/chatActions'
-import { Alert, Button, Center, Group, Loader, Modal, MultiSelect, TextInput, Title, useMantineTheme } from '@mantine/core'
+import { Alert, Button, Center, Group, Loader, Modal, MultiSelect, TextInput, Title } from '@mantine/core'
 import { CREATE_GROUP_RESET, UPDATE_GROUP_RESET} from '../_constants/chatConstants'
 import { listUsers } from '../_actions/userActions';
 import { TbAlertCircle } from "react-icons/tb";
@@ -10,7 +10,7 @@ import { useBetween } from 'use-between';
 
 const GroupChatModal = params => {
   const { selectedChat,setSelectedChat,setActiveID } = useBetween(useShareableState) 
-    const theme = useMantineTheme()
+ 
     const dispatch=useDispatch()
 
     const [gcName, setGCname] = useState(selectedChat.chatName )
@@ -24,7 +24,7 @@ const GroupChatModal = params => {
     const {success:successEdit,loading:loadingEdit,error:errorEdit,group:updatedGroup} =groupUpdate
 
     const userList = useSelector(state=>state.userList)
-    const{loading,success, users}=userList
+    const{success, users}=userList
 
      
     useEffect(()=>{
@@ -40,6 +40,7 @@ const GroupChatModal = params => {
           setSelectedChat(newGroup)
           setActiveID(newGroup._id)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[successAdd,successEdit])
 
 

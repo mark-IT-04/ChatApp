@@ -2,7 +2,7 @@ import React,{useEffect, useState} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import { useDisclosure } from '@mantine/hooks';
-import { ActionIcon, Button, Center, Drawer, Group, Input, Loader, Paper, ScrollArea, Stack, Text, Tooltip } from '@mantine/core'
+import { ActionIcon,  Center, Drawer, Group, Input, Loader, Paper, ScrollArea, Stack, Text, Tooltip } from '@mantine/core'
 import { BiSearch } from "react-icons/bi"
 import { listUsers } from '../_actions/userActions';
 import { accessChat } from '../_actions/chatActions';
@@ -27,6 +27,7 @@ const SideDrawer = () => {
         }else{
           dispatch(listUsers(keyword))
         }      
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       },[dispatch,keyword])
 
 
@@ -87,7 +88,6 @@ const SideDrawer = () => {
                             name={user.name}
                             round={true}
                             size={'30px'}
-                            // radius="xl" size='sm'
                         />
                         <Stack spacing={0}>
                             <Text fw={500}>{user.name}</Text>

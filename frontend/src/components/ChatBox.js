@@ -1,6 +1,5 @@
-import { ActionIcon, Box, Button, Center, Flex, Group, Loader, Modal, Paper, MediaQuery, Space, Stack, Text, Textarea, Tooltip } from '@mantine/core'
+import { ActionIcon, Box,  Center,  Group, Loader, Modal, Paper, MediaQuery, Space, Stack, Text,  Tooltip } from '@mantine/core'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { BsArrowLeftShort,BsFillEyeFill } from "react-icons/bs"
 import { useDispatch, useSelector } from 'react-redux'
 import { sendMessage,allMessages } from '../_actions/messageAction'
@@ -16,7 +15,7 @@ const ENDPOINT="http://localhost:8081"
 var socket, selectedChatCompare
 
 const ChatBox = params => {
-  const { selectedChat,setSelectedChat,setNotification,notification } = useBetween(useShareableState) 
+  const { selectedChat,setNotification,notification } = useBetween(useShareableState) 
     const [newMsg,setNewMsg]=useState('')
 
     const userLogin = useSelector(state=>state.userLogin)
@@ -28,7 +27,7 @@ const ChatBox = params => {
     const dispatch=useDispatch()
 
     const messagesAll = useSelector(state=>state.messagesAll)
-    const{loading, success:successLoad,messages}=messagesAll
+    const{ success:successLoad,messages}=messagesAll
 
     const messageSend = useSelector(state=>state.messageSend)
     const{success:successSend,message:sentMessage}=messageSend
@@ -37,7 +36,7 @@ const ChatBox = params => {
           socket=io(ENDPOINT)
           socket.emit("setup",userInfo)
           socket.on("connection",()=>setSocketConnected(true))
-         
+         // eslint-disable-next-line react-hooks/exhaustive-deps
         },[])
 
     useEffect(()=>{
@@ -49,7 +48,7 @@ const ChatBox = params => {
       if (successSend) {
         socket.emit("new message", sentMessage);
       }
-      
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },[selectedChat,successSend])
 
     console.log(notification)
@@ -69,6 +68,7 @@ const ChatBox = params => {
         }
         
       })
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },[socket])
     
     const sender=(users)=>{

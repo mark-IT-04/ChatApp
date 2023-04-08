@@ -1,7 +1,7 @@
 import React,{ useState } from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import {useSelector} from 'react-redux'
-import {  AppShell,  Navbar,  Header,  useMantineTheme} from '@mantine/core';
+import {  AppShell, Header,  useMantineTheme} from '@mantine/core';
 import NavHeader from './components/NavHeader'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen';

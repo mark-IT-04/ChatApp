@@ -4,13 +4,12 @@ import { AiOutlinePlus } from "react-icons/ai"
 import { fetchChat } from '../_actions/chatActions'
 import { useDispatch, useSelector } from 'react-redux'
 import GroupChatModal from './GroupChatModal'
-import ChatBox from './ChatBox'
 import Avatar from 'react-avatar'
 import useShareableState from '../useShareableState'
 import { useBetween } from 'use-between';
 
 const MyChats = params => {
-  const {selectedChat, setSelectedChat,activeID, setActiveID } = useBetween(useShareableState)
+  const { setSelectedChat,activeID, setActiveID } = useBetween(useShareableState)
   const [openedGModal, setOpenedGModal] = useState(false);
 
     const dispatch=useDispatch()
@@ -20,7 +19,7 @@ const MyChats = params => {
     const{userInfo}=userLogin
 
     const chatFetch = useSelector(state=>state.chatFetch)
-    const{loading,success, chats}=chatFetch
+    const{loading, chats}=chatFetch
 
 
     useEffect(()=>{

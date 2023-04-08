@@ -1,8 +1,7 @@
 import React,{useState} from 'react';
 import {useSelector,useDispatch} from 'react-redux'
-import { Link,useNavigate } from 'react-router-dom'
-import { Group,  Box ,Avatar,Title,Button, MediaQuery, ActionIcon, Tooltip, Popover, Text, Indicator } from '@mantine/core';
-import { BiLogIn,BiLogOut } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom'
+import { Group,  Box ,Title,  ActionIcon,  Popover, Text, Indicator } from '@mantine/core';
  import {logout} from '../_actions/userActions'
 import { showNotification } from '@mantine/notifications'
 import { TbCheck } from "react-icons/tb"

@@ -4,13 +4,11 @@ import {useDispatch,useSelector} from 'react-redux'
 import {
     TextInput,
     PasswordInput,
-    Anchor,
     Paper,
     Title,
-    Text,
     Container,
     Alert,
-    FileInput,rem,
+    // FileInput,rem,
     Button,
   } from '@mantine/core';
   // import { TbUpload } from 'react-icons/tb';
@@ -44,7 +42,7 @@ const RegisterScreen = () => {
   useEffect(()=>{
     if(success)
       navigate('/')
-    
+   // eslint-disable-next-line react-hooks/exhaustive-deps 
   },[success])
 
   return (<>
