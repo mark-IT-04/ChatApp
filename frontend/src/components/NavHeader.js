@@ -90,11 +90,25 @@ const NavHeader = ({opened,setOpened}) => {
                   :
                   notification.map(notif=>(
                       notif.chat.isGroupChat ? 
-                      <Text size="sm" weight={500} color='gray' style={{cursor:'pointer'}}  onClick={()=>loadChats(notif)}>
+                      <Text size="sm" weight={500} color='gray' p={'5px'} onClick={()=>loadChats(notif) }
+                      sx={()=>({
+                        cursor:'pointer',
+                           '&:hover': {
+                              color:'#82ccdd',
+                            }
+                        })}
+                      >
                           New Message in {notif.chat.chatName}  
                       </Text>
                       : 
-                      <Text size="sm" weight={500} color='gray' style={{cursor:'pointer'}}  onClick={()=>loadChats(notif)}>
+                      <Text size="sm" weight={500} color='gray'  p={'5px'} onClick={()=>loadChats(notif)}
+                        sx={()=>({
+                          cursor:'pointer',
+                             '&:hover': {
+                              color:'#82ccdd',
+                              }
+                          })}
+                      >
                         New Message from {sender(notif.chat.users)} 
                       </Text>
                     ))

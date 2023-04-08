@@ -13,9 +13,8 @@ const GroupChatModal = params => {
  
     const dispatch=useDispatch()
 
-    const [gcName, setGCname] = useState(selectedChat.chatName )
-    const [usersVal, setUsersVal] = useState(selectedChat.users);
-   
+    const [gcName, setGCname] = useState('')
+    const [usersVal, setUsersVal] = useState([]);
 
     const groupCreate =useSelector(state=>state.groupCreate)
     const {success:successAdd,loading:loadingAdd,error:errorAdd,group:newGroup} =groupCreate
@@ -26,7 +25,16 @@ const GroupChatModal = params => {
     const userList = useSelector(state=>state.userList)
     const{success, users}=userList
 
-     
+    useEffect(()=>{
+      if(Object.keys(selectedChat).length!==0 && params.title==="Update Group"){
+      setGCname(selectedChat.chatName)
+      setUsersVal(
+        selectedChat.users.map((user)=>(
+          user._id           
+        ))
+      )}
+  },[selectedChat]) 
+
     useEffect(()=>{
           dispatch(listUsers())
       },[dispatch])
@@ -86,7 +94,7 @@ const GroupChatModal = params => {
         }
 
     
-    <TextInput label="Group Chat Name" placeholder="Enter GC name" 
+    <TextInput label="Group Chat Name" placeholder={"Enter GC name" }
           withAsterisk 
           radius='md'
           mb='sm'

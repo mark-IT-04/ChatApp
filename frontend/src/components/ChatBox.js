@@ -217,9 +217,9 @@ const ChatBox = params => {
         </>}
             
     </Paper>
-    {/* {selectedChat.isGroupChat ? */}
-      <GroupChatModal openedGModal={modalGCOpen} setOpenedGModal={setModalGCOpen} title={'Update Group'}/>
-    {/* : */}
+    
+    <GroupChatModal openedGModal={modalGCOpen} setOpenedGModal={setModalGCOpen} title={'Update Group'}/>
+    
     <Modal opened={modalOpen} onClose={()=>setModalOpen(false)} title=" " size='xs' radius='md'> 
         <Stack align='center' spacing={0} mb='lg'>
           <Avatar
@@ -231,7 +231,7 @@ const ChatBox = params => {
           <Text >{senderEmail(selectedChat.users)}</Text>
         </Stack>
     </Modal>
-    {/* } */}
+    
   </>)
 }
 
