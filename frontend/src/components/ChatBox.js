@@ -60,11 +60,11 @@ const ChatBox = params => {
           !selectedChatCompare || // if chat is not selected or doesn't match current chat
           selectedChatCompare._id !== newMessageRecieved.chat._id
         ) {
-          if (!notification.find(e=>e._id===newMessageRecieved._id)) {
-            
+          if (!(notification.includes(newMessageRecieved))) {
+            if(!notification.find(e=>e._id===newMessageRecieved._id)){
               setNotification([newMessageRecieved,...notification]);
               dispatch(allMessages(selectedChatCompare._id))
-            
+            }
           }
         } else {
             dispatch(allMessages(selectedChatCompare._id))
