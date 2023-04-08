@@ -32,6 +32,8 @@ const ChatBox = params => {
     const messageSend = useSelector(state=>state.messageSend)
     const{success:successSend,message:sentMessage}=messageSend
 
+
+
     useEffect(()=>{
           socket=io(ENDPOINT)
           socket.emit("setup",userInfo)
@@ -50,7 +52,6 @@ const ChatBox = params => {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },[selectedChat,successSend])
-
     console.log(notification)
 
     useEffect(() => {
@@ -59,9 +60,11 @@ const ChatBox = params => {
           !selectedChatCompare || // if chat is not selected or doesn't match current chat
           selectedChatCompare._id !== newMessageRecieved.chat._id
         ) {
-          if (!notification.includes(newMessageRecieved)) {
-            setNotification([newMessageRecieved,...notification]);
-            dispatch(allMessages(selectedChatCompare._id))
+          if (!notification.find(e=>e._id===newMessageRecieved._id)) {
+            
+              setNotification([newMessageRecieved,...notification]);
+              dispatch(allMessages(selectedChatCompare._id))
+            
           }
         } else {
             dispatch(allMessages(selectedChatCompare._id))
@@ -69,7 +72,7 @@ const ChatBox = params => {
         
       })
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[socket])
+    },[socket,notification])
     
     const sender=(users)=>{
       if(Object.keys(selectedChat).length!==0 )
@@ -218,19 +221,19 @@ const ChatBox = params => {
             
     </Paper>
     
-    <GroupChatModal openedGModal={modalGCOpen} setOpenedGModal={setModalGCOpen} title={'Update Group'}/>
-    
-    <Modal opened={modalOpen} onClose={()=>setModalOpen(false)} title=" " size='xs' radius='md'> 
-        <Stack align='center' spacing={0} mb='lg'>
-          <Avatar
-            name={sender(selectedChat.users)}
-            round={true}
-            size={'75px'}
-          />
-          <Text mt='sm'>{sender(selectedChat.users)}</Text>
-          <Text >{senderEmail(selectedChat.users)}</Text>
-        </Stack>
-    </Modal>
+      <GroupChatModal openedGModal={modalGCOpen} setOpenedGModal={setModalGCOpen} title={'Update Group'}/>
+      
+      <Modal opened={modalOpen} onClose={()=>setModalOpen(false)} title=" " size='xs' radius='md'> 
+          <Stack align='center' spacing={0} mb='lg'>
+            <Avatar
+              name={sender(selectedChat.users)}
+              round={true}
+              size={'75px'}
+            />
+            <Text mt='sm'>{sender(selectedChat.users)}</Text>
+            <Text >{senderEmail(selectedChat.users)}</Text>
+          </Stack>
+      </Modal>
     
   </>)
 }

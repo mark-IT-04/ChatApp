@@ -9,7 +9,7 @@ import useShareableState from '../useShareableState'
 import { useBetween } from 'use-between';
 
 const MyChats = params => {
-  const { setSelectedChat,activeID, setActiveID } = useBetween(useShareableState)
+  const { setSelectedChat,activeID, setActiveID,setNotification,notification } = useBetween(useShareableState)
   const [openedGModal, setOpenedGModal] = useState(false);
 
     const dispatch=useDispatch()
@@ -39,7 +39,7 @@ const MyChats = params => {
       params.clickedHandler()
     }
 
-    
+   
   return (<>
     <Paper shadow="md" radius="lg" px="lg" pt='md' pb='xl' m='xs' withBorder mih={'85vh'} mah={'85vh'}>
           <Group position="apart">
