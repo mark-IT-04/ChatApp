@@ -38,6 +38,7 @@ const ChatBox = params => {
           socket=io(ENDPOINT)
           socket.emit("setup",userInfo)
           socket.on("connection",()=>setSocketConnected(true))
+          
          // eslint-disable-next-line react-hooks/exhaustive-deps
         },[])
 
@@ -49,21 +50,25 @@ const ChatBox = params => {
       }
       if (successSend) {
         socket.emit("new message", sentMessage);
+        
       }
+      
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },[selectedChat,successSend])
-    console.log(notification)
-
+   
     useEffect(() => {
       socket.on("message recieved", (newMessageRecieved) => {
         if (
           !selectedChatCompare || // if chat is not selected or doesn't match current chat
           selectedChatCompare._id !== newMessageRecieved.chat._id
         ) {
+         
           if (!(notification.includes(newMessageRecieved))) {
-            if(!notification.find(e=>e._id===newMessageRecieved._id)){
+            
+            if(!(notification.find(e=>e._id===newMessageRecieved._id))){
+              
               setNotification([newMessageRecieved,...notification]);
-              dispatch(allMessages(selectedChatCompare._id))
+              // dispatch(allMessages(selectedChatCompare._id))
             }
           }
         } else {
@@ -72,7 +77,7 @@ const ChatBox = params => {
         
       })
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[socket,notification])
+    },[socket])
     
     const sender=(users)=>{
       if(Object.keys(selectedChat).length!==0 )

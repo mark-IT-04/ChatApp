@@ -23,8 +23,7 @@ const MyChats = params => {
 
 
     useEffect(()=>{
-      dispatch(fetchChat())
-      
+      dispatch(fetchChat()) 
     },[dispatch])
 
     
@@ -37,6 +36,9 @@ const MyChats = params => {
       setSelectedChat(chat)
       setActiveID(chat._id)
       params.clickedHandler()
+      if(notification.find(e=>e.chat._id===chat._id)){
+        setNotification(notification.filter ((n)=>n.chat._id!==chat._id))
+      }
     }
 
    
@@ -53,7 +55,7 @@ const MyChats = params => {
           <ScrollArea sx={{ height: '70vh' }} >
           {loading ? 
                 
-                <Center mt='xl' pt='xl'><Loader color= 'cyan' size="sm"/></Center>  
+                <Center mt='xl' pt='xl'><Loader color= 'cyan' size="md"/></Center>  
             :           
                 chats.map((chat)=>(
                 <Paper  radius="md" p="sm" key={chat._id} my='xs'
